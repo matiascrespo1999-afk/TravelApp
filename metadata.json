@@ -1,0 +1,8 @@
+{
+  "name": "Travel Hub Universal",
+  "description": "Hub operativo de viaje reutilizable, configurable y escalable",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

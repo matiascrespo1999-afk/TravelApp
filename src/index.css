@@ -1,0 +1,169 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: var(--bg-canvas);
+  --color-card: var(--bg-card);
+  --color-card-border: var(--border-card);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-city-primary: var(--city-primary);
+  --color-city-secondary: var(--city-secondary);
+  --color-city-glow: var(--city-glow);
+  --color-user: var(--user-color);
+}
+
+@layer base {
+  :root {
+    --transition-theme: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Modo Claro / Light Theme Base - Nítido, Alto Contraste Apple Studio */
+  [data-theme="light"] {
+    --bg-canvas: #F8FAFC;
+    --bg-card: rgba(255, 255, 255, 0.88);
+    --border-card: rgba(15, 23, 42, 0.08);
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --glass-blur: blur(24px) saturate(160%);
+    --grad-top: #ffffff;
+    --grad-bottom: #f1f5f9;
+  }
+
+  [data-theme="dark"], :root {
+    --bg-canvas: #090D16;
+    --bg-card: rgba(15, 23, 42, 0.55);
+    --border-card: rgba(255, 255, 255, 0.09);
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --glass-blur: blur(24px) saturate(160%);
+    --grad-top: #0f172a;
+    --grad-bottom: #020617;
+  }
+
+  /* Temas por Ciudad (7 Ciudades: 4 Principales + 3 Secundarias + Tránsito) */
+  [data-city="ROMA"], [data-city="ROM"] {
+    --city-primary: #ea580c;   /* Terracota Imperial */
+    --city-secondary: #eab308; /* Dorado Vaticano */
+    --city-tertiary: #f97316;  /* Mármol Travertino */
+    --city-quaternary: #7c2d12;/* Púrpura César */
+    --city-glow: rgba(234, 88, 12, 0.28);
+    --city-gradient: linear-gradient(135deg, #ea580c 0%, #eab308 100%);
+  }
+
+  [data-city="LONDRES"], [data-city="LON"] {
+    --city-primary: #1e40af;   /* Azul Real Británico */
+    --city-secondary: #dc2626; /* Rojo Cabina / Bus */
+    --city-tertiary: #0284c7;  /* Niebla Támesis */
+    --city-quaternary: #047857;/* Verde Hyde Park */
+    --city-glow: rgba(30, 64, 175, 0.28);
+    --city-gradient: linear-gradient(135deg, #1e40af 0%, #dc2626 100%);
+  }
+
+  [data-city="OXFORD"], [data-city="OXF"] {
+    --city-primary: #1e3a8a;   /* Azul Bodleian */
+    --city-secondary: #7e22ce; /* Púrpura Colegiado */
+    --city-tertiary: #d97706;  /* Oro Piedra Caliza */
+    --city-quaternary: #059669;/* Verde Jardín Botánico */
+    --city-glow: rgba(30, 58, 138, 0.28);
+    --city-gradient: linear-gradient(135deg, #1e3a8a 0%, #7e22ce 100%);
+  }
+
+  [data-city="BARCELONA"], [data-city="BCN"] {
+    --city-primary: #0891b2;   /* Cian Mediterráneo */
+    --city-secondary: #f59e0b; /* Ámbar Trencadís Gaudí */
+    --city-tertiary: #f43f5e;  /* Coral Modernista */
+    --city-quaternary: #1d4ed8;/* Azul Profundo Marítim */
+    --city-glow: rgba(8, 145, 178, 0.28);
+    --city-gradient: linear-gradient(135deg, #0891b2 0%, #f59e0b 100%);
+  }
+
+  [data-city="GIRONA"], [data-city="GIR"] {
+    --city-primary: #059669;   /* Verde Muralla Carolingia */
+    --city-secondary: #b45309; /* Ámbar Call Jueu */
+    --city-tertiary: #e11d48;  /* Terracota Riu Onyar */
+    --city-quaternary: #475569;/* Granito Catedral */
+    --city-glow: rgba(5, 150, 105, 0.28);
+    --city-gradient: linear-gradient(135deg, #059669 0%, #b45309 100%);
+  }
+
+  [data-city="MADRID"], [data-city="MAD"] {
+    --city-primary: #dc2626;   /* Rojo Carmesí Real */
+    --city-secondary: #f97316; /* Naranja Atardecer Debod */
+    --city-tertiary: #eab308;  /* Oro de los Austrias */
+    --city-quaternary: #0284c7;/* Azul Cielo Velázquez */
+    --city-glow: rgba(220, 38, 38, 0.28);
+    --city-gradient: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+  }
+
+  [data-city="TOLEDO"], [data-city="TOL"] {
+    --city-primary: #d97706;   /* Oro Toledano Mazapán */
+    --city-secondary: #78350f; /* Bronce Muralla Imperial */
+    --city-tertiary: #7e22ce;  /* Púrpura El Greco */
+    --city-quaternary: #475569;/* Acero de Toledo */
+    --city-glow: rgba(217, 119, 6, 0.28);
+    --city-gradient: linear-gradient(135deg, #d97706 0%, #78350f 100%);
+  }
+
+  [data-city="TRANSITO"] {
+    --city-primary: #6366f1;   /* Índigo Transatlántico */
+    --city-secondary: #0ea5e9; /* Azul Cielo Vuelo */
+    --city-tertiary: #8b5cf6;  /* Violeta Estratosfera */
+    --city-quaternary: #0f172a;/* Azul Noche */
+    --city-glow: rgba(99, 102, 241, 0.28);
+    --city-gradient: linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%);
+  }
+
+  /* Acentos por Viajero */
+
+  body {
+    background-color: var(--bg-canvas);
+    background-image: linear-gradient(135deg, var(--grad-top) 0%, var(--grad-bottom) 100%);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    transition: background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-card);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-theme);
+}
+
+.glass-dock {
+  background: var(--bg-card);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid var(--border-card);
+  box-shadow: 0 12px 40px -4px rgba(0, 0, 0, 0.12);
+  transition: var(--transition-theme);
+}
+
+.liquid-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-card);
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Custom subtle scrollbar for internal containers */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}

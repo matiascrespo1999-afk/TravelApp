@@ -1,0 +1,117 @@
+--- src/components/ExpensesView.tsx
++++ src/components/ExpensesView.tsx
+@@ -10,31 +10,40 @@
+ import { Expense } from '../types';
+ 
+ export const ExpensesView: React.FC = () => {
+-  const { expenses, addExpense, deleteExpense, config } = useTripStore();
++  const { expenses, addExpense, deleteExpense, config, travelers } = useTripStore();
+   const [showAddModal, setShowAddModal] = useState<boolean>(false);
+ 
+   const [desc, setDesc] = useState('');
+   const [amount, setAmount] = useState('');
+   const [curr, setCurr] = useState<'EUR' | 'GBP' | 'USD'>('EUR');
+-  const [payer, setPayer] = useState<'Matías' | 'Ariel'>('Matías');
+-  const [split, setSplit] = useState<'50/50' | 'Solo Matías' | 'Solo Ariel'>('50/50');
++  const [payer, setPayer] = useState<'USR_01' | 'USR_02'>('USR_01');
++  const [split, setSplit] = useState<'50/50' | 'Solo USR_01' | 'Solo USR_02'>('50/50');
+   const [category, setCategory] = useState('Comida');
+   const [city, setCity] = useState('Roma');
++  
++  const userMatias = travelers.find(t => t.id === 'USR_01')?.name || 'Matías';
++  const userAriel = travelers.find(t => t.id === 'USR_02')?.name || 'Ariel';
+ 
+   // Pre-trip: Matías paid $1845, Ariel paid $645. Total $2490 ($1245 each).
+   // Initial debt: Ariel owes Matías $1245 - $645 = $600 USD.
+   const preTripMatias = config?.preTripMatiasUSD || 0;
+   const preTripAri = config?.preTripAriUSD || 0;
+-  const initialArielOwesMatias = (preTripMatias - preTripAri) / 2; // 600
+ 
+   // Trip expenses math
+   let matiasPaidTripUSD = 0;
+   let ariPaidTripUSD = 0;
+   let matiasChargedTripUSD = 0;
+   let ariChargedTripUSD = 0;
+ 
+   expenses.forEach(e => {
+-    if (e.payer === 'Matías') matiasPaidTripUSD += (e.amountUSD || 0);
+-    if (e.payer === 'Ariel') ariPaidTripUSD += (e.amountUSD || 0);
+-    matiasChargedTripUSD += (e.chargeMatias || 0);
+-    ariChargedTripUSD += (e.chargeAri || 0);
++    const totalUSD = e.calculatedUsdAmount || e.realUsdAmount || 0;
++    if (e.paidByUserId === 'USR_01') matiasPaidTripUSD += totalUSD;
++    if (e.paidByUserId === 'USR_02') ariPaidTripUSD += totalUSD;
++    
++    e.splits?.forEach(s => {
++      if (s.userId === 'USR_01') matiasChargedTripUSD += (s.assignedUsdAmount || 0);
++      if (s.userId === 'USR_02') ariChargedTripUSD += (s.assignedUsdAmount || 0);
++    });
+   });
+ 
+   // Net Balance calculation
+-  const netArielDebtToMatias = initialArielOwesMatias + (ariChargedTripUSD - ariPaidTripUSD);
++  const totalMatias = preTripMatias + matiasChargedTripUSD;
++  const totalAriel = preTripAri + ariChargedTripUSD;
++  const netArielDebtToMatias = ariChargedTripUSD - ariPaidTripUSD;
+ 
+   const handleAddExpense = (e: React.FormEvent) => {
+     e.preventDefault();
+@@ -48,27 +57,26 @@
+     let chargeMatias = 0;
+     let chargeAri = 0;
+ 
+     if (split === '50/50') {
+       chargeMatias = parseFloat((amountUSD / 2).toFixed(2));
+       chargeAri = parseFloat((amountUSD / 2).toFixed(2));
+-    } else if (split === 'Solo Matías') {
++    } else if (split === 'Solo USR_01') {
+       chargeMatias = amountUSD;
+       chargeAri = 0;
+-    } else if (split === 'Solo Ariel') {
++    } else if (split === 'Solo USR_02') {
+       chargeMatias = 0;
+       chargeAri = amountUSD;
+     }
+ 
+     const newExp: Expense = {
+       id: `exp_${Date.now()}`,
+-      timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16),
+-      date: new Date().toISOString().split('T')[0],
+-      city,
++      title: desc.trim(),
++      expenseDate: new Date().toISOString().split('T')[0],
+       category,
+-      desc: desc.trim(),
+-      payer,
+-      split,
+-      payMethod: 'Tarjeta Contactless',
+-      curr,
+-      amount: numAmount,
+-      amountUSD,
+-      rate,
+-      chargeMatias,
+-      chargeAri
++      originalAmount: numAmount,
++      originalCurrency: curr,
++      calculatedUsdAmount: amountUSD,
++      paidByUserId: payer,
++      paymentMethod: 'Tarjeta Contactless',
++      splits: [
++        { userId: 'USR_01', assignedUsdAmount: chargeMatias },
++        { userId: 'USR_02', assignedUsdAmount: chargeAri }
++      ],
++      notes: `Ciudad: ${city}`
+     };
+ 
+     addExpense(newExp);
+@@ -91,7 +99,10 @@
+   const handleExportCSV = () => {
+-    const headers = 'ID,Fecha,Ciudad,Categoría,Descripción,Pagador,División,Moneda,Monto,Monto_USD,Cargo_Matias,Cargo_Ari\n';
++    const headers = 'ID,Fecha,Categoría,Título,Pagador,Moneda,Monto,Monto_USD,Cargo_Matias,Cargo_Ari\n';
+     const rows = expenses.map(e => {
+-      `"${e.id}","${e.date}","${e.city}","${e.category}","${e.desc}","${e.payer}","${e.split}","${e.curr}",${e.amount},${e.amountUSD},${e.chargeMatias},${e.chargeAri}`
++      const cMatias = e.splits?.find(s => s.userId === 'USR_01')?.assignedUsdAmount || 0;
++      const cAri = e.splits?.find(s => s.userId === 'USR_02')?.assignedUsdAmount || 0;
++      const tUSD = e.calculatedUsdAmount || e.realUsdAmount || 0;
++      return `"${e.id}","${e.expenseDate}","${e.category}","${e.title}","${e.paidByUserId}","${e.originalCurrency}",${e.originalAmount},${tUSD},${cMatias},${cAri}`;
+     }).join('\n');

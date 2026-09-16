@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "trips": {
+      "title": "Viajes",
+      "description": "Documentos maestros de cada viaje con su configuración global.",
+      "fields": {
+        "title": { "type": "string", "description": "Nombre del viaje" },
+        "startDate": { "type": "string", "description": "Fecha de inicio" },
+        "endDate": { "type": "string", "description": "Fecha de fin" },
+        "baseCurrency": { "type": "string", "description": "Divisa contable base" },
+        "driveFolderUrl": { "type": "string", "description": "URL de la carpeta raíz de Google Drive" },
+        "travelers": { "type": "array", "description": "Viajeros participantes" },
+        "destinations": { "type": "array", "description": "Ciudades o destinos" },
+        "currencyRates": { "type": "object", "description": "Tasas de cambio" }
+      }
+    },
+    "itinerary_days": {
+      "title": "Días del Itinerario",
+      "description": "Planes diarios del itinerario por viaje",
+      "fields": {
+        "tripId": { "type": "string", "description": "ID del viaje" },
+        "dayNumber": { "type": "number", "description": "Número de día del 1 al N" },
+        "date": { "type": "string", "description": "Fecha del día" },
+        "cityCode": { "type": "string", "description": "Código de ciudad" },
+        "cityName": { "type": "string", "description": "Nombre de la ciudad" },
+        "dayTitle": { "type": "string", "description": "Título descriptivo y conciso del día" }
+      }
+    },
+    "activities": {
+      "title": "Actividades",
+      "description": "Actividades y eventos diarios",
+      "fields": {
+        "tripId": { "type": "string", "description": "ID del viaje" },
+        "dayNumber": { "type": "number", "description": "Día asignado" },
+        "time": { "type": "string", "description": "Hora programada" },
+        "title": { "type": "string", "description": "Título de la actividad" },
+        "type": { "type": "string", "description": "Tipo de actividad (fijo, flex, transit, etc)" },
+        "isFixed": { "type": "boolean", "description": "Si es reserva obligatoria con horario" }
+      }
+    },
+    "transports": {
+      "title": "Transportes",
+      "description": "Vuelos, trenes y traslados de larga y media distancia",
+      "fields": {
+        "tripId": { "type": "string", "description": "ID del viaje" },
+        "type": { "type": "string", "description": "FLIGHT | TRAIN | METRO | BUS" },
+        "company": { "type": "string", "description": "Aerolínea o compañía de tren" },
+        "number": { "type": "string", "description": "Número de vuelo o servicio" },
+        "tickets": { "type": "array", "description": "Billetes con PNR y asientos" }
+      }
+    },
+    "accommodations": {
+      "title": "Alojamientos",
+      "description": "Hoteles y Airbnbs",
+      "fields": {
+        "tripId": { "type": "string", "description": "ID del viaje" },
+        "name": { "type": "string", "description": "Nombre del alojamiento" },
+        "cityCode": { "type": "string", "description": "Código de ciudad" },
+        "doorPin": { "type": "string", "description": "PIN de acceso autónomo" },
+        "address": { "type": "string", "description": "Dirección completa" }
+      }
+    },
+    "vouchers": {
+      "title": "Vouchers",
+      "description": "Comprobantes y entradas oficiales",
+      "fields": {
+        "tripId": { "type": "string", "description": "ID del viaje" },
+        "title": { "type": "string", "description": "Título del voucher" },
+        "bookingCode": { "type": "string", "description": "Código de reserva o localizador" },
+        "drivePdfUrl": { "type": "string", "description": "Enlace al PDF en Google Drive" }
+      }
+    },
+    "expenses": {
+      "title": "Gastos",
+      "description": "Gastos y división de pagos entre viajeros",
+      "fields": {
+        "tripId": { "type": "string", "description": "ID del viaje" },
+        "title": { "type": "string", "description": "Concepto del gasto" },
+        "amountOriginal": { "type": "number", "description": "Monto en moneda original" },
+        "currency": { "type": "string", "description": "Moneda original" },
+        "paidById": { "type": "string", "description": "ID del pagador" }
+      }
+    }
+  }
+}

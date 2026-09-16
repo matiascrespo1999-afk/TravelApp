@@ -1,0 +1,46 @@
+[
+  {
+    "ID_Alojamiento": "ALOJ_01",
+    "Ciudad": "Roma",
+    "Nombre": "Sallustiano",
+    "Direccion": "Via Sallustiana 10",
+    "PIN_Puerta": "",
+    "Codigo_Reserva": "HA-SW0P31",
+    "Indicaciones_Llegada": "A 10 min a pie de Termini (salida Via Cernaia hacia Piazza delle Finanze).",
+    "Link_Maps": "https://www.google.com/maps/search/?api=1&query=Via+Sallustiana+10+Roma",
+    "Link_Supermercados": "https://www.google.com/maps/search/?api=1&query=supermercados+cerca+de+Via+Sallustiana+10+Roma"
+  },
+  {
+    "ID_Alojamiento": "ALOJ_02",
+    "Ciudad": "Londres",
+    "Nombre": "Vrbo London Borough",
+    "Direccion": "68 Southwark Bridge Road",
+    "PIN_Puerta": "",
+    "Codigo_Reserva": 57512088,
+    "Indicaciones_Llegada": "A 5 min de estación Borough (Northern Line) y Southwark (Jubilee Line).",
+    "Link_Maps": "https://maps.app.goo.gl/ZMF36wnwyXZ11bY36?g_st=ac",
+    "Link_Supermercados": "https://www.google.com/maps/search/?api=1&query=supermercados+cerca+de+68+Southwark+Bridge+Road+London"
+  },
+  {
+    "ID_Alojamiento": "ALOJ_03",
+    "Ciudad": "Barcelona",
+    "Nombre": "Medea Hostal",
+    "Direccion": "Carrer de Mallorca 290",
+    "PIN_Puerta": 5688,
+    "Codigo_Reserva": 105237741,
+    "Indicaciones_Llegada": "Teclado calle 5688 / Teclado hostal 5688 / Cajetín blanco de llaves junto a Hab 1 es 5688#. Tasa turística 30.80 € a pagar en recepción.",
+    "Link_Maps": "https://maps.app.goo.gl/2FTEaYMkHX3A7UTv6",
+    "Link_Supermercados": "https://www.google.com/maps/search/?api=1&query=supermercados+cerca+de+Carrer+de+Mallorca+290+Barcelona"
+  },
+  {
+    "ID_Alojamiento": "ALOJ_04",
+    "Ciudad": "Madrid",
+    "Nombre": "IC19 Estudio Gran Vía",
+    "Direccion": "Calle de Isabel la Católica 19",
+    "PIN_Puerta": "",
+    "Codigo_Reserva": "HMHCB2CAYZ",
+    "Indicaciones_Llegada": "A 1 cuadra de Gran Vía y Plaza Santo Domingo. Consigna de valijas disponible.",
+    "Link_Maps": "https://maps.app.goo.gl/BdfwrPn5EbjA5KUT6",
+    "Link_Supermercados": "https://www.google.com/maps/search/?api=1&query=supermercados+cerca+de+Calle+de+Isabel+la+Catolica+19+Madrid"
+  }
+]
